@@ -63,14 +63,49 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+/* JS sets data-theme="light" or "dark" on <html> before first paint (resolving "auto" via prefers-color-scheme). */
+:root,
+:root[data-theme="light"] {
+  --bg: #ffffff;
+  --fg: #000000;
+  --muted: #555555;
+  --link: #1772d0;
+  --link-hover: #f09228;
+  --highlight-bg: #ffffd0;
+  --highlight-fg: #000000;
+  --row-accent-bg: #ffffd0;
+  --toggle-bg: #f1f1f1;
+  --toggle-fg: #333333;
+  --toggle-border: #cccccc;
+}
+
+:root[data-theme="dark"] {
+  --bg: #121416;
+  --fg: #e8e8e8;
+  --muted: #a8a8a8;
+  --link: #6fb3ff;
+  --link-hover: #ffb774;
+  --highlight-bg: #4a3f24;
+  --highlight-fg: #fff7c2;
+  --row-accent-bg: #4a3f24;
+  --toggle-bg: #222428;
+  --toggle-fg: #e8e8e8;
+  --toggle-border: #444;
+}
+
+html, body {
+  background-color: var(--bg);
+  color: var(--fg);
+}
+
 a {
-  color: #1772d0;
+  color: var(--link);
   text-decoration: none;
 }
 
 a:focus,
 a:hover {
-  color: #f09228;
+  color: var(--link-hover);
   text-decoration: none;
 }
 
@@ -82,6 +117,11 @@ p,
 a {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
   font-size: 14px;
+}
+
+/* Override deprecated bgcolor attribute on highlighted rows so dark mode works */
+tr[bgcolor="#ffffd0"] {
+  background-color: var(--row-accent-bg) !important;
 }
 
 strong {
@@ -119,9 +159,59 @@ h2 {
   width: 160px;
   height: 160px;
   position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
   transition: opacity .2s ease-in-out;
   -moz-transition: opacity .2s ease-in-out;
   -webkit-transition: opacity .2s ease-in-out;
+}
+
+.one:hover .two {
+  opacity: 1;
+}
+
+.one img,
+.one .two img {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+
+.one.crop-center img,
+.one.crop-center .two img {
+  object-position: center;
+}
+
+.profile-swap {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profile-swap img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-swap .swap {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity .2s ease-in-out;
+  object-position: 90% 50%;
+}
+
+.profile-swap:hover .swap {
+  opacity: 1;
 }
 
 .fade {
@@ -131,7 +221,8 @@ h2 {
 }
 
 span.highlight {
-  background-color: #ffffd0;
+  background-color: var(--highlight-bg);
+  color: var(--highlight-fg);
 }
 
 .colored-box {
@@ -139,4 +230,26 @@ span.highlight {
     padding: 20px;
     display: inline-block;
     border-radius: 10px;
+}
+
+.theme-toggle {
+  position: fixed !important;
+  top: 12px !important;
+  right: 12px !important;
+  left: auto !important;
+  z-index: 1000;
+  background: var(--toggle-bg);
+  color: var(--toggle-fg);
+  border: 1px solid var(--toggle-border);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-family: 'Lato', Verdana, Helvetica, sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.theme-toggle:hover {
+  border-color: var(--link-hover);
+  color: var(--link-hover);
 }

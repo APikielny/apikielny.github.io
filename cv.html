@@ -1,0 +1,409 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Adam Pikielny &mdash; CV</title>
+
+    <meta name="author" content="Adam Pikielny">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="stylesheet" type="text/css" href="stylesheet.css?v=11">
+
+    <script>
+      // First paint: use saved preference if set, otherwise fall back to the OS setting.
+      (function () {
+        try {
+          var pref;
+          try { pref = localStorage.getItem("theme"); } catch (e) {}
+          if (pref !== "light" && pref !== "dark") {
+            pref = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+          }
+          document.documentElement.setAttribute("data-theme", pref);
+        } catch (e) {}
+      })();
+    </script>
+
+    <style>
+      .cv {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px 24px 24px;
+      }
+      .cv-header {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        margin-bottom: 8px;
+      }
+      .cv-header-text { flex: 1; }
+      .cv-header-photo img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+      .cv .name {
+        padding-top: 0;
+        margin: 0 0 6px 0;
+        font-size: 32px;
+      }
+      .cv .tagline {
+        margin: 0 0 6px 0;
+        color: var(--muted);
+      }
+      .cv .links { margin: 0; }
+
+      .cv-section {
+        margin-top: 28px;
+      }
+      .cv-section h2 {
+        margin: 0 0 10px 0;
+        padding-bottom: 4px;
+        border-bottom: 1px solid var(--toggle-border);
+      }
+
+      .cv-entry {
+        padding: 8px 0;
+      }
+      .cv-entry.highlight-row {
+        background-color: var(--row-accent-bg);
+        padding: 10px 12px;
+        border-radius: 4px;
+      }
+      .cv-entry-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 16px;
+      }
+      .cv-title {
+        font-weight: 700;
+      }
+      .cv-date {
+        color: var(--muted);
+        white-space: nowrap;
+        font-size: 13px;
+      }
+      .cv-entry-body {
+        margin: 4px 0 0 0;
+      }
+      .accent {
+        color: #d06060;
+      }
+      :root[data-theme="dark"] .accent {
+        color: #ff9090;
+      }
+      .cv-list {
+        margin: 0;
+        padding-left: 20px;
+      }
+      .cv-list li { margin: 4px 0; }
+
+      .cv-footer {
+        margin-top: 32px;
+        text-align: right;
+        font-size: small;
+        color: var(--muted);
+      }
+
+      .cv-back {
+        display: inline-block;
+        margin-bottom: 12px;
+        font-size: 13px;
+      }
+
+      @media (max-width: 560px) {
+        .cv-header { flex-direction: column-reverse; align-items: flex-start; }
+        .cv-entry-head { flex-direction: column; gap: 2px; }
+      }
+
+      @media print {
+        :root,
+        :root[data-theme="dark"],
+        :root[data-theme="light"] {
+          --bg: #ffffff !important;
+          --fg: #000000 !important;
+          --muted: #555555 !important;
+          --link: #000000 !important;
+          --link-hover: #000000 !important;
+          --row-accent-bg: transparent !important;
+          --highlight-bg: transparent !important;
+          --toggle-border: #cccccc !important;
+        }
+        html, body { background: #fff !important; color: #000 !important; }
+        .theme-toggle, .cv-back { display: none !important; }
+        .cv { padding: 0; max-width: 100%; }
+        a { color: #000 !important; text-decoration: none; }
+        .cv-entry.highlight-row {
+          background-color: transparent !important;
+          padding: 8px 0 !important;
+          border-radius: 0 !important;
+        }
+        .cv-section h2 { border-bottom: 1px solid #999 !important; }
+        .accent { color: #000 !important; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle light/dark" style="position:fixed;top:12px;right:12px;left:auto;z-index:1000;">
+      <span id="theme-toggle-icon">🌓</span>
+    </button>
+    <script>
+      (function () {
+        var btn = document.getElementById("theme-toggle");
+        var icon = document.getElementById("theme-toggle-icon");
+        var root = document.documentElement;
+
+        function currentTheme() {
+          return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+        }
+
+        function render() {
+          var t = currentTheme();
+          icon.textContent = t === "dark" ? "☀️" : "🌙";
+          btn.title = "Switch to " + (t === "dark" ? "light" : "dark") + " mode";
+        }
+
+        btn.addEventListener("click", function () {
+          var next = currentTheme() === "dark" ? "light" : "dark";
+          root.setAttribute("data-theme", next);
+          try { localStorage.setItem("theme", next); } catch (e) {}
+          render();
+        });
+
+        render();
+      })();
+    </script>
+    <script>
+      // Assemble obfuscated email links at runtime so scrapers don't see the plain address in HTML.
+      (function () {
+        var links = document.querySelectorAll(".obfuscated-email");
+        for (var i = 0; i < links.length; i++) {
+          var el = links[i];
+          var u = el.getAttribute("data-u");
+          var d = el.getAttribute("data-d");
+          if (!u || !d) continue;
+          var addr = u + "@" + d;
+          el.href = "mailto:" + addr;
+          var t = (el.textContent || "").trim();
+          if (t === "" || /\(at\)|\[at\]| at /i.test(t)) {
+            el.textContent = addr;
+          }
+        }
+      })();
+    </script>
+
+    <main class="cv">
+      <p><a class="cv-back" href="index.html">&larr; back to homepage</a></p>
+
+      <header class="cv-header">
+        <div class="cv-header-text">
+          <h1 class="name">Adam Pikielny</h1>
+          <p class="tagline">Research Scientist at Adobe. Computational photography, computer vision, deep learning.</p>
+          <p class="links">
+            <a class="obfuscated-email" data-u="apikielny" data-d="gmail.com" href="#">apikielny (at) gmail (dot) com</a> &nbsp;/&nbsp;
+            <a href="data/AdamPikielny-CV.pdf">PDF</a> &nbsp;/&nbsp;
+            <a href="https://scholar.google.com/citations?user=yksDirIAAAAJ">Scholar</a> &nbsp;/&nbsp;
+            <a href="https://www.linkedin.com/in/adam-pikielny-30a606152">LinkedIn</a> &nbsp;/&nbsp;
+            <a href="https://github.com/apikielny">GitHub</a>
+          </p>
+        </div>
+        <a class="cv-header-photo" href="images/AdamPikielny.png">
+          <img alt="profile photo" src="images/AdamPikielny.png">
+        </a>
+      </header>
+
+      <section class="cv-section">
+        <h2>Experience</h2>
+        <div class="cv-entry">
+          <div class="cv-entry-head">
+            <span class="cv-title">Research Scientist, <a href="https://research.adobe.com/">Adobe</a></span>
+            <span class="cv-date">present</span>
+          </div>
+          <p class="cv-entry-body">
+            Member of <a href="https://graphics.stanford.edu/~levoy/">Marc Levoy</a>'s computational photography team. I build models that are novel enough to publish at top venues and robust enough to ship on-device to millions of users.
+          </p>
+        </div>
+      </section>
+
+      <section class="cv-section">
+        <h2>Education</h2>
+        <div class="cv-entry">
+          <div class="cv-entry-head">
+            <span class="cv-title"><a href="https://cs.brown.edu/">Brown University</a>, B.S. Computer Science</span>
+            <span class="cv-date">2022</span>
+          </div>
+          <p class="cv-entry-body">
+            Visual Computing and AI/ML pathways. Graduated with Honors and won the <a href="https://cs.brown.edu/news/2022/05/16/twenty-five-students-win-brown-cs-senior-prizes/">Senior Prize in Computer Science</a>. Undergraduate research in <a href="https://jamestompkin.com/">James Tompkin</a>'s Visual Computing Lab on deep fake detection. Senior thesis, <em>Consistent Depth Estimation for Video</em>, won 1st Prize at the Brown CS Undergraduate Research Symposium.
+          </p>
+        </div>
+      </section>
+
+      <section class="cv-section">
+        <h2>Publications</h2>
+
+        <div class="cv-entry">
+          <div class="cv-entry-head">
+            <span class="cv-title"><a href="https://dgalor.github.io/hist2style/">Hist2Style: Histogram-Guided Stylization with Bilateral Grids</a></span>
+            <span class="cv-date">CVPR 2026</span>
+          </div>
+          <p class="cv-entry-body">
+            <a href="http://www.dekelgalor.com/">Dekel Galor</a>, <strong>Adam Pikielny</strong>, <a href="https://ztzhang.info/">Zhoutong Zhang</a>, <a href="https://kewang0622.github.io/">Ke Wang</a>, <a href="https://www2.eecs.berkeley.edu/Faculty/Homepages/waller.html">Laura Waller</a>, <a href="https://people.csail.mit.edu/jiawen/">Jiawen Chen</a>, <a href="https://ilyac.net/">Ilya Chugunov</a>.
+            <a href="https://dgalor.github.io/hist2style/">project page</a>.
+          </p>
+        </div>
+
+        <div class="cv-entry highlight-row">
+          <div class="cv-entry-head">
+            <span class="cv-title"><a href="https://erickee.com/reflections/cvpr2025.html">Removing Reflections from RAW Photos</a></span>
+            <span class="cv-date">CVPR 2025</span>
+          </div>
+          <p class="cv-entry-body">
+            <a href="https://research.adobe.com/person/eric-kee/">Eric Kee</a>, <strong>Adam Pikielny</strong>, <a href="https://kmatzen.com/">Kevin Blackburn-Matzen</a>, <a href="https://graphics.stanford.edu/~levoy/">Marc Levoy</a>.
+            <span class="accent"><strong>Oral, top 0.7% of submissions.</strong></span>
+            <br>
+            <a href="https://erickee.com/reflections/cvpr2025.html">project page</a> /
+            <a href="https://openaccess.thecvf.com/content/CVPR2025/papers/Kee_Removing_Reflections_from_RAW_Photos_CVPR_2025_paper.pdf">paper</a> /
+            <a href="https://blog.adobe.com/en/publish/2023/10/11/max-sneaks-2023">Adobe MAX Sneaks 2023</a> /
+            <a href="https://www.youtube.com/watch?v=T_J-WaNzqCQ">video</a> /
+            <a href="https://cs.brown.edu/news/2025/06/30/brown-visual-computing-is-in-the-top-01-at-cvpr-2025/">Brown CS press</a>
+          </p>
+        </div>
+
+        <div class="cv-entry">
+          <div class="cv-entry-head">
+            <span class="cv-title"><a href="https://cs.brown.edu/media/filer_public/f0/38/f0388aba-039d-442a-9fad-954bd98ca464/pikielnyadam.pdf">Consistent Depth Estimation for Video</a></span>
+            <span class="cv-date">2022</span>
+          </div>
+          <p class="cv-entry-body">
+            <strong>Adam Pikielny</strong>, advised by <a href="https://jamestompkin.com/">James Tompkin</a>, with help from <a href="https://www.linkedin.com/in/marcmapeke">Marc Mapeke</a>. <em>Brown CS Senior Thesis.</em>
+            <span class="accent"><strong>1st Prize, Brown CS Undergraduate Research Symposium.</strong></span>
+            <a href="https://cs.brown.edu/media/filer_public/f0/38/f0388aba-039d-442a-9fad-954bd98ca464/pikielnyadam.pdf">thesis</a>.
+          </p>
+        </div>
+      </section>
+
+      <section class="cv-section">
+        <h2>Shipped Products</h2>
+
+        <div class="cv-entry">
+          <div class="cv-entry-head">
+            <span class="cv-title"><a href="https://research.adobe.com/articles/indigo/indigo.html">Project Indigo</a>, Adobe Nextcam</span>
+            <span class="cv-date">2025</span>
+          </div>
+          <p class="cv-entry-body">
+            iOS camera app with full manual controls, an SLR-like look, and the highest image quality on iPhone in both JPEG and RAW. Ranked #5 in top free video/photo apps in the US one week after launch and hit 1M downloads in four weeks with zero marketing.
+            <br>
+            <a href="https://research.adobe.com/articles/indigo/indigo.html">product page</a> /
+            <a href="https://www.reddit.com/r/ProjectIndigoiOS/">r/ProjectIndigoiOS</a>
+          </p>
+        </div>
+
+        <div class="cv-entry">
+          <div class="cv-entry-head">
+            <span class="cv-title"><a href="https://blog.adobe.com/en/publish/2024/12/12/removing-window-reflections-adobe-camera-raw">Reflection Removal</a>, Adobe Camera Raw, Lightroom, Photoshop, Project Indigo</span>
+            <span class="cv-date">Dec 2024</span>
+          </div>
+          <p class="cv-entry-body">
+            One-click removal of window reflections from photographs. Productized from our CVPR 2025 research, with Eric Kee.
+            <br>
+            <a href="https://blog.adobe.com/en/publish/2024/12/12/removing-window-reflections-adobe-camera-raw">blog post</a>
+          </p>
+        </div>
+
+      </section>
+
+      <section class="cv-section">
+        <h2>Open Source Contributions</h2>
+
+        <div class="cv-entry">
+          <div class="cv-entry-head">
+            <span class="cv-title"><a href="https://github.com/adobe/pconfigs">pconfigs</a>, Adobe (Apache 2.0)</span>
+            <span class="cv-date"></span>
+          </div>
+          <p class="cv-entry-body">
+            A dataclass-based Python config library. Configs are typed, inheritable Python classes that live next to the code they configure, instead of brittle text files that drift out of sync. We used it throughout the reflection removal project.
+          </p>
+        </div>
+      </section>
+
+      <section class="cv-section">
+        <h2>Patents</h2>
+
+        <div class="cv-entry">
+          <div class="cv-entry-head">
+            <span class="cv-title"><a href="https://patents.google.com/patent/US20250117994A1/en">Removing Image Overlays</a></span>
+            <span class="cv-date">Apr 2025</span>
+          </div>
+          <p class="cv-entry-body">
+            Eric R. Kee, <strong>Adam A. Pikielny</strong>, Marc S. Levoy. US Patent Application 18/426,758. Adobe Inc.
+          </p>
+        </div>
+
+        <div class="cv-entry">
+          <div class="cv-entry-head">
+            <span class="cv-title"><a href="https://patents.google.com/patent/US12106398B2/en">Machine Learning-Based Chroma Keying Process</a></span>
+            <span class="cv-date">Oct 2024</span>
+          </div>
+          <p class="cv-entry-body">
+            Seoung Wug Oh, Joon-Young Lee, Brian Price, John G. Nelson, Wujun Wang, <strong>Adam Pikielny</strong>. US Patent 12,106,398. Adobe Inc.
+          </p>
+        </div>
+      </section>
+
+      <section class="cv-section">
+        <h2>Awards &amp; Honors</h2>
+        <ul class="cv-list">
+          <li>CVPR 2025 Oral, <em>Removing Reflections from RAW Photos</em> (top 0.7% of submissions)</li>
+          <li><a href="https://cs.brown.edu/news/2022/05/16/twenty-five-students-win-brown-cs-senior-prizes/">Senior Prize in Computer Science</a>, Brown CS, 2022</li>
+          <li>1st Prize, Brown CS Undergraduate Research Symposium, senior thesis, 2022</li>
+          <li>Adobe MAX Sneaks 2023, <em>Project See Through</em></li>
+        </ul>
+      </section>
+
+      <section class="cv-section">
+        <h2>Teaching &amp; Mentoring</h2>
+        <div class="cv-entry">
+          <div class="cv-entry-head">
+            <span class="cv-title">Guest lecture, <em>Reflection Removal</em>, Brown University</span>
+            <span class="cv-date">Apr 2026</span>
+          </div>
+        </div>
+        <div class="cv-entry">
+          <div class="cv-entry-head">
+            <span class="cv-title">Guest lecture, <em>On-Device Computational Photography</em>, Brown University</span>
+            <span class="cv-date">Oct 2025</span>
+          </div>
+        </div>
+        <div class="cv-entry">
+          <div class="cv-entry-head">
+            <span class="cv-title">Mentored Adobe research interns <a href="http://www.dekelgalor.com/">Dekel Galor</a> and Kevin Zhang</span>
+            <span class="cv-date"></span>
+          </div>
+        </div>
+        <div class="cv-entry">
+          <div class="cv-entry-head">
+            <span class="cv-title">Teaching Assistant, Discrete Structures and Probability, Brown CS</span>
+            <span class="cv-date"></span>
+          </div>
+        </div>
+        <div class="cv-entry">
+          <div class="cv-entry-head">
+            <span class="cv-title">Teaching Assistant, Introduction to Computer Graphics, Brown CS</span>
+            <span class="cv-date"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="cv-section">
+        <h2>Outside CS</h2>
+        <p class="cv-entry-body">
+          Videographer for action sports photographer <a href="https://mingpoonphotography.com">Ming Poon</a>. <a href="https://www.youtube.com/">YouTube channel</a> with over 320,000 views, featured by GoPro and Ski Utah. Brown Outing Club executive board; Utah Conservation Corps alum; AIARE Avalanche, Wilderness First Aid, PADI, and chainsaw sawyer certifications.
+        </p>
+      </section>
+
+    </main>
+  </body>
+</html>
