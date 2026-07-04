@@ -214,6 +214,12 @@ h2 {
   opacity: 1;
 }
 
+/* Invert transparent line-art figures in dark mode so black strokes show up.
+   hue-rotate keeps the colored phone borders roughly their original hue. */
+:root[data-theme="dark"] .invert-dark {
+  filter: invert(1) hue-rotate(180deg);
+}
+
 .fade {
   transition: opacity .2s ease-in-out;
   -moz-transition: opacity .2s ease-in-out;
