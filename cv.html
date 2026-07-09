@@ -33,21 +33,15 @@
     }
 
     .cv-header {
-      display: flex;
-      align-items: center;
-      gap: 24px;
       margin-bottom: 8px;
     }
 
-    .cv-header-text {
-      flex: 1;
-    }
-
-    .cv-header-photo img {
-      width: 120px;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 50%;
+    .cv-nameline {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      flex-wrap: wrap;
     }
 
     .cv .name {
@@ -56,15 +50,18 @@
       font-size: 32px;
     }
 
-    .cv .website {
-      margin: 0 0 6px 0;
-      font-size: 17px;
-      font-weight: 600;
-    }
-
     .cv .tagline {
       margin: 0 0 6px 0;
       color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .cv .summary {
+      margin: 0 0 8px 0;
     }
 
     .cv .links {
@@ -137,11 +134,6 @@
     }
 
     @media (max-width: 560px) {
-      .cv-header {
-        flex-direction: column-reverse;
-        align-items: flex-start;
-      }
-
       .cv-entry-head {
         flex-direction: column;
         gap: 2px;
@@ -191,6 +183,11 @@
 
       .cv-section h2 {
         border-bottom: 1px solid #999 !important;
+        break-after: avoid;
+      }
+
+      .cv-entry {
+        break-inside: avoid;
       }
 
       .accent {
@@ -252,22 +249,22 @@
 
   <main class="cv">
     <header class="cv-header">
-      <div class="cv-header-text">
+      <div class="cv-nameline">
         <h1 class="name">Adam Pikielny</h1>
-        <p class="website"><a href="https://apikielny.github.io/">apikielny.github.io</a></p>
-        <p class="tagline">Research Scientist at Adobe. Computational photography, computer vision, deep learning.</p>
         <p class="links">
-          <a class="obfuscated-email" data-u="apikielny" data-d="gmail.com" href="#">apikielny (at) gmail (dot) com</a>
-          &nbsp;/&nbsp;
-          <a href="data/AdamPikielny-CV.pdf">PDF</a> &nbsp;/&nbsp;
+          <a href="https://apikielny.github.io/"><strong>apikielny.github.io</strong></a> &nbsp;/&nbsp;
+          <a href="mailto:apikielny@gmail.com">apikielny@gmail.com</a> &nbsp;/&nbsp;
           <a href="https://scholar.google.com/citations?user=yksDirIAAAAJ">Scholar</a> &nbsp;/&nbsp;
           <a href="https://www.linkedin.com/in/adam-pikielny-30a606152">LinkedIn</a> &nbsp;/&nbsp;
-          <a href="https://github.com/apikielny">GitHub</a>
+          <a href="https://github.com/apikielny">GitHub</a> &nbsp;/&nbsp;
+          <a href="data/AdamPikielny-CV.pdf">PDF</a>
         </p>
       </div>
-      <a class="cv-header-photo" href="images/AdamPikielny.png">
-        <img alt="profile photo" src="images/AdamPikielny.png">
-      </a>
+      <p class="tagline"><span>Research Scientist at Adobe.</span> <span>Deep Learning &middot; Computer Vision
+          &middot; Generative Models &middot; Computational Photography.</span></p>
+      <p class="summary">I work on the full AI stack: from novel research through large-scale distributed and
+        synthetic-data training to on-device deployment. I've authored a CVPR 2025 oral (top 0.7%) and three patents,
+        and shipped production models used by millions.</p>
     </header>
 
     <section class="cv-section">
@@ -280,10 +277,13 @@
           <span class="cv-date">2022&ndash;present</span>
         </div>
         <ul class="cv-list">
-          <li>Built Reflection Removal end-to-end on a team of 2 — from research (CVPR 2025 oral, top 0.7%) through
-            data and model scaling, on-device optimization (CoreML/ONNX), and deployment to
-            millions of users in Lightroom, Photoshop, Camera Raw, and Project Indigo.</li>
-          <li>Contributed to Project Indigo and mentored research interns leading to publications.</li>
+          <li>Built Reflection Removal end-to-end on a team of 2, from our CVPR oral to production: a 2.5M-parameter
+            model — 50× smaller than the prior 125M-parameter SOTA — trained purely on synthetic data yet outperforms
+            prior SOTA by 4+ dB PSNR on real photographs.</li>
+          <li>Optimized the model for on-device inference (CoreML/ONNX) — 1K-resolution preview in 4.5–6.5s on a
+            MacBook or iPhone — and shipped it to millions of users in Lightroom, Photoshop, Camera Raw, and Project
+            Indigo.</li>
+          <li>Contributed to Project Indigo, mentored research interns, and authored 2 publications and 3 patents.</li>
         </ul>
       </div>
       <div class="cv-entry">
@@ -294,26 +294,6 @@
         <ul class="cv-list">
           <li>Built After Effects' first ML-based effect plugin, leading to a <a
               href="https://patents.google.com/patent/US12106398B2/en">patent</a>.</li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="cv-section">
-      <h2>Education</h2>
-      <div class="cv-entry">
-        <div class="cv-entry-head">
-          <span class="cv-title"><a href="https://cs.brown.edu/">Brown University</a>, B.S. Computer Science<span
-              style="font-weight:normal">, Visual Computing and AI/ML pathways</span></span>
-          <span class="cv-date">2022</span>
-        </div>
-        <ul class="cv-list">
-          <li>Senior thesis, <em>Consistent Depth Estimation for Video</em>, won 1st Prize at the Brown CS Undergraduate
-            Research Symposium.</li>
-          <li>Graduated with Honors and won the <a
-              href="https://cs.brown.edu/news/2022/05/16/twenty-five-students-win-brown-cs-senior-prizes/">Senior Prize
-              in Computer Science</a>.</li>
-          <li>Research in <a href="https://jamestompkin.com/">James Tompkin</a>'s Visual Computing Lab on
-            deep fake detection and depth estimation.</li>
         </ul>
       </div>
     </section>
@@ -379,6 +359,40 @@
     </section>
 
     <section class="cv-section">
+      <h2>Education</h2>
+      <div class="cv-entry">
+        <div class="cv-entry-head">
+          <span class="cv-title"><a href="https://cs.brown.edu/">Brown University</a>, B.S. Computer Science<span
+              style="font-weight:normal">, Visual Computing and AI/ML pathways</span></span>
+          <span class="cv-date">2022</span>
+        </div>
+        <ul class="cv-list">
+          <li>Senior thesis, <em>Consistent Depth Estimation for Video</em>, won 1st Prize at the Brown CS Undergraduate
+            Research Symposium.</li>
+          <li>Graduated with Honors and won the <a
+              href="https://cs.brown.edu/news/2022/05/16/twenty-five-students-win-brown-cs-senior-prizes/">Senior Prize
+              in Computer Science</a>.</li>
+          <li>Research in <a href="https://jamestompkin.com/">James Tompkin</a>'s Visual Computing Lab on
+            deepfake detection and depth estimation.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="cv-section">
+      <h2>Skills</h2>
+      <div class="cv-entry">
+        <p class="cv-entry-body">
+          <strong>Tools:</strong> Python, C++, PyTorch, DDP, CoreML, ONNX, CUDA, Halide, Bazel<br>
+          <strong>Models &amp; architectures:</strong> generative models (diffusion &amp; flow models), transformers,
+          GANs, CNNs<br>
+          <strong>Methods:</strong> synthetic data generation, distributed training, foundation-model
+          distillation, adversarial training, image &amp; signal processing, on-device optimization (quantization,
+          palettization)
+        </p>
+      </div>
+    </section>
+
+    <section class="cv-section">
       <h2>Shipped Products</h2>
 
       <div class="cv-entry">
@@ -386,11 +400,10 @@
           <span class="cv-title"><a
               href="https://blog.adobe.com/en/publish/2024/12/12/removing-window-reflections-adobe-camera-raw">Reflection
               Removal</a>: Adobe Camera Raw (2024), Lightroom (2025), Photoshop (2026), Project Indigo (2025)</span>
-          <span class="cv-date">2024-2026</span>
+          <span class="cv-date">2024&ndash;2026</span>
         </div>
         <p class="cv-entry-body">
-          One-click removal of window reflections from photographs. Productized from my CVPR 2025 research, with Eric
-          Kee.
+          One-click removal of window reflections from photographs. Productized from my CVPR research and 2 patents.
         </p>
       </div>
 
@@ -407,22 +420,6 @@
         </p>
       </div>
 
-    </section>
-
-    <section class="cv-section">
-      <h2>Open Source Contributions</h2>
-
-      <div class="cv-entry">
-        <div class="cv-entry-head">
-          <span class="cv-title"><a href="https://github.com/adobe/pconfigs">pconfigs</a>, Adobe (Apache 2.0)</span>
-          <span class="cv-date"></span>
-        </div>
-        <p class="cv-entry-body">
-          A dataclass-based Python config library. Configs are typed, inheritable Python classes that live next to the
-          code they configure, instead of brittle text files that drift out of sync. We used it throughout the
-          reflection removal project.
-        </p>
-      </div>
     </section>
 
     <section class="cv-section">
@@ -506,6 +503,22 @@
           <span class="cv-title">Teaching Assistant, CSCI 1230 Introduction to Computer Graphics, Brown CS</span>
           <span class="cv-date">2021</span>
         </div>
+      </div>
+    </section>
+
+    <section class="cv-section">
+      <h2>Open Source Contributions</h2>
+
+      <div class="cv-entry">
+        <div class="cv-entry-head">
+          <span class="cv-title"><a href="https://github.com/adobe/pconfigs">pconfigs</a>, Adobe (Apache 2.0)</span>
+          <span class="cv-date"></span>
+        </div>
+        <p class="cv-entry-body">
+          A dataclass-based Python config library. Configs are typed, inheritable Python classes that live next to the
+          code they configure, instead of brittle text files that drift out of sync. We used it throughout the
+          reflection removal project.
+        </p>
       </div>
     </section>
 
